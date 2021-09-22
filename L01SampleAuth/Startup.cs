@@ -1,5 +1,7 @@
 using L01SampleAuth.Data;
+using L01SampleAuth.Helpers;
 using L01SampleAuth.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -35,6 +37,18 @@ namespace L01SampleAuth
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders()
                 .AddDefaultUI();
+
+            services.AddAuthorization(OptionsBuilderConfigurationExtensions =>
+            {
+                OptionsBuilderConfigurationExtensions.AddPolicy("MohawkAdmin", policy =>
+                    {
+                        policy.RequireRole("Admin");
+                        policy.Requirements.Add(new EmailDomainRequirement("mohawkcollege.ca"));
+                    });
+            });
+
+            services.AddSingleton<IAuthorizationHandler, EmailDomainHandler>();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

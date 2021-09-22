@@ -124,7 +124,7 @@ namespace L01SampleAuth.Controllers
         }
 
         // GET: Cars/Delete/5
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "MohawkAdmin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
