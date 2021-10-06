@@ -5,34 +5,24 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using L01SampleAuth.Data;
-using L01SampleAuth.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Configuration;
+using CommonAttacks.Data;
+using CommonAttacks.Models;
 
-namespace L01SampleAuth.Controllers
+namespace CommonAttacks.Controllers
 {
-   
-   
-    [Authorize(Roles ="Member,Admin")]
     public class CarsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private IConfiguration Configuration { get; }
 
-        public CarsController(ApplicationDbContext context, IConfiguration configuration)
+        public CarsController(ApplicationDbContext context)
         {
             _context = context;
-            Configuration = configuration;
         }
 
         // GET: Cars
-
-        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            ViewBag.MySecret = Configuration["SSDClassDemo001-S1"];
-            return View(await _context.Cars.ToListAsync());
+            return View(await _context.Car.ToListAsync());
         }
 
         // GET: Cars/Details/5
@@ -43,7 +33,7 @@ namespace L01SampleAuth.Controllers
                 return NotFound();
             }
 
-            var car = await _context.Cars
+            var car = await _context.Car
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (car == null)
             {
@@ -76,7 +66,6 @@ namespace L01SampleAuth.Controllers
         }
 
         // GET: Cars/Edit/5
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -84,7 +73,7 @@ namespace L01SampleAuth.Controllers
                 return NotFound();
             }
 
-            var car = await _context.Cars.FindAsync(id);
+            var car = await _context.Car.FindAsync(id);
             if (car == null)
             {
                 return NotFound();
@@ -128,19 +117,14 @@ namespace L01SampleAuth.Controllers
         }
 
         // GET: Cars/Delete/5
-        [Authorize(Policy = "MohawkAdmin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            else if (id < 1)
-            {
-                throw new ArgumentOutOfRangeException("Car Id is Invalid! cannot be less than 1.");
-            }
 
-            var car = await _context.Cars
+            var car = await _context.Car
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (car == null)
             {
@@ -155,15 +139,15 @@ namespace L01SampleAuth.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var car = await _context.Cars.FindAsync(id);
-            _context.Cars.Remove(car);
+            var car = await _context.Car.FindAsync(id);
+            _context.Car.Remove(car);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CarExists(int id)
         {
-            return _context.Cars.Any(e => e.Id == id);
+            return _context.Car.Any(e => e.Id == id);
         }
     }
 }

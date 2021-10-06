@@ -1,7 +1,4 @@
-using L01SampleAuth.Data;
-using L01SampleAuth.Helpers;
-using L01SampleAuth.Models;
-using Microsoft.AspNetCore.Authorization;
+using CommonAttacks.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -16,7 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace L01SampleAuth
+namespace CommonAttacks
 {
     public class Startup
     {
@@ -33,30 +30,8 @@ namespace L01SampleAuth
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders()
-                .AddDefaultUI();
-
-
-            services.AddAuthorization(OptionsBuilderConfigurationExtensions =>
-            {
-                OptionsBuilderConfigurationExtensions.AddPolicy("MohawkAdmin", policy =>
-                    {
-                        policy.RequireRole("Admin");
-                        policy.Requirements.Add(new EmailDomainRequirement("mohawkcollege.ca"));
-                    });
-            });
-
-            services.AddSingleton<IAuthorizationHandler, EmailDomainHandler>();
-
-
-            //services.AddAuthentication().AddFacebook(facebookOptions =>
-            //{
-            //    facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
-            //    facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-            //}); 
-            
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "L01SampleAuth", "L01SampleAuth\L01SampleAuth.csproj", "{58C70CB3-4180-4E9C-9E16-05B93E1FAB95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L01FacebookAuth", "L01FacebookAuth\L01FacebookAuth.csproj", "{78607E57-6899-4F43-BA50-B17ADF3CE173}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "L01FacebookAuth", "L01FacebookAuth\L01FacebookAuth.csproj", "{78607E57-6899-4F43-BA50-B17ADF3CE173}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonAttacks", "CommonAttacks\CommonAttacks.csproj", "{6F5D686B-FCCC-4B35-9328-1FB5DA111F66}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{78607E57-6899-4F43-BA50-B17ADF3CE173}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78607E57-6899-4F43-BA50-B17ADF3CE173}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78607E57-6899-4F43-BA50-B17ADF3CE173}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F5D686B-FCCC-4B35-9328-1FB5DA111F66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F5D686B-FCCC-4B35-9328-1FB5DA111F66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F5D686B-FCCC-4B35-9328-1FB5DA111F66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F5D686B-FCCC-4B35-9328-1FB5DA111F66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

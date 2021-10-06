@@ -1,5 +1,4 @@
-﻿@model IEnumerable<L01SampleAuth.Models.Car>
-@inject Microsoft.Extensions.Configuration.IConfiguration config
+﻿@model IEnumerable<CommonAttacks.Models.Car>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,10 +8,6 @@
 
 <p>
     <a asp-action="Create">Create New</a>
-</p>
-<p>
-    My Controller Action Secret: @ViewBag.MySecret
-    My View Secret: @config["SSDClassDemo001-S1"]
 </p>
 <table class="table">
     <thead>
