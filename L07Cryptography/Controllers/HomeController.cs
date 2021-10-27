@@ -1,5 +1,4 @@
-﻿using CommonAttacks.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using L07Cryptography.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -8,7 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CommonAttacks.Controllers
+namespace L07Cryptography.Controllers
 {
     public class HomeController : Controller
     {
@@ -24,7 +23,6 @@ namespace CommonAttacks.Controllers
             return View();
         }
 
-        [Authorize]
         public IActionResult Privacy()
         {
             return View();

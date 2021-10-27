@@ -1,14 +1,15 @@
-﻿using CommonAttacks.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
+using ProactiveControls.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CommonAttacks.Controllers
+namespace ProactiveControls.Controllers
 {
     public class HomeController : Controller
     {
@@ -24,7 +25,6 @@ namespace CommonAttacks.Controllers
             return View();
         }
 
-        [Authorize]
         public IActionResult Privacy()
         {
             return View();
@@ -33,6 +33,16 @@ namespace CommonAttacks.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
+            var error = HttpContext.Features.Get<IExceptionHandlerFeature>();
+            if (error is ExceptionHandlerFeature ex)
+            {
+                if(ex.Error is SqlException sqlEx)
+                {
+                    _logger.LogWarning($"***** SQLException for IP: {Request.HttpContext.Connection.RemoteIpAddress}");
+
+                    _logger.LogError($"***** Exception Type: {ex.Error.GetType()}; Message: {ex.Error.Message}, Path: {ex.Path}");
+                }
+            }
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
