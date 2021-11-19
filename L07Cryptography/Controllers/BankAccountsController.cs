@@ -9,16 +9,20 @@ using L07Cryptography.Data;
 using L07Cryptography.Models;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.Extensions.Configuration;
 
 namespace L07Cryptography.Controllers
 {
     public class BankAccountsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IConfiguration _config;
 
-        public BankAccountsController(ApplicationDbContext context)
+
+        public BankAccountsController(ApplicationDbContext context, IConfiguration config)
         {
             _context = context;
+            _config = config;
         }
 
         // GET: BankAccounts
@@ -70,7 +74,7 @@ namespace L07Cryptography.Controllers
 
         private BankAccount EncryptAndDecrypt(BankAccount bankAccount)
         {
-            Aes aes = Aes.Create();
+            Aes aes = AesInitialize();
 
             //encrypt bank account number
             ICryptoTransform encryptor = aes.CreateEncryptor();
@@ -86,6 +90,33 @@ namespace L07Cryptography.Controllers
 
             return bankAccount;
 
+        }
+
+        private Aes AesInitialize()
+        {
+            Aes aes = Aes.Create();
+
+            // retrieve key & IV from secrets in our configuration
+            var aesSettings = _config.GetSection("AES").Get<AESSettings>();
+
+            if (aesSettings == null)
+            {
+                string key = null, IV = null; // prepare Configuration strings for Key and IV
+                foreach (byte b in aes.Key)
+                    key += $"{ b},";
+                key = key.Trim(',');
+
+                foreach (byte b in aes.IV)
+                    IV += $"{ b},";
+                IV = IV.Trim(',');
+            }
+            else
+            {
+                aes.Key = aesSettings.Key;
+                aes.IV = aesSettings.IV;
+            }
+
+            return aes;
         }
 
         // GET: BankAccounts/Edit/5

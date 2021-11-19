@@ -16,6 +16,7 @@ namespace L07Cryptography.Data
 
         public DbSet<Password> Passwords { get; set; }
         public DbSet<BankAccount> BankAccounts { get; set; }
+        public DbSet<L07Cryptography.Models.BankAccountDp> BankAccountDp { get; set; }
 
     }
 }
